@@ -28,13 +28,14 @@ let persons = [
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static('dist'))
 
 morgan.token('data', function (req, res) { return JSON.stringify(req.body) })
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :data"))
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
+// app.get('/', (req, res) => {
+//   res.send('<h1>Hello World!</h1>')
+// })
 
 app.get('/info', (req, res) => {
   const quantity = persons.length
@@ -84,5 +85,5 @@ app.delete('/api/persons/:id', (req, res) => {
   res.json(persons)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
