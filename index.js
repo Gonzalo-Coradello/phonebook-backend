@@ -84,7 +84,11 @@ app.put("/api/persons/:id", (req, res, next) => {
       { new: true, runValidators: true, context: 'query' }
     )
     .then((updatedPerson) => {
-        res.json(updatedPerson);
+        if(updatedPerson) {
+          res.json(updatedPerson);
+        } else {
+          return res.status(404).json({ error: 'Person not found' })
+        }
     })
     .catch((error) => next(error));
 });
